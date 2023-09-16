@@ -1,4 +1,5 @@
 import keyboard as k
+import os
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
