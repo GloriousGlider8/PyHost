@@ -89,6 +89,7 @@ if action != 3:
 					for i, v in enumerate(temp):
 						if v == None:
 							temp.remove(None)
+							host["denylist"].remove(None)
 						else:
 							temp1.append("❌")
 					temp.append("New")
@@ -99,3 +100,9 @@ if action != 3:
 
 					if action1 <= length:
 						host["denylist"][action1] = None
+					else:
+						temp2 = action1 - length
+
+						if temp2 == 1:
+							newone = input("Block IP: ")
+							host["denylist"].append(newone)
