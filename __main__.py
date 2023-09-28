@@ -78,7 +78,7 @@ if action != 3:
 		exitLoop = False
 
 		while exitLoop == False:
-			action = f.selPrompt(["Denylist", "Allowlist", "List Usage", "Conflict Handling", "Response Type", "Response Code", "Quit"], ["❌", "✅", "⚖️", "⚖️", "📄", "#️⃣", "🚪"], "Settings")
+			action = f.selPrompt(["Denylist", "Allowlist", "List Usage", "Conflict Handling", "Response Type", "Response Code", "Quit", "Save"], ["❌", "✅", "⚖️", "⚖️", "📄", "#️⃣", "🚪", "💾"], "Settings")
 			if action == 6:
 				exitLoop = True
 			else:
