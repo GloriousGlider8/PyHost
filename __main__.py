@@ -67,12 +67,35 @@ if action != 3:
 	elif action == 1:
 		runpy.run_path("folderhost.py")
 	else:
-		hostymlWrite = open("host.yml", "w")
-		hostyml = open("host.yml", "r+")
+		temp = open("host.yml", "r")
+		hostyml = temp.read()
+		temp.close()
 
-		host = yaml.load(hostyml.read(), Loader=yaml.Loader)
+		hostfile = open("host.yml", "w")
+
+		host = yaml.load(hostyml, Loader=yaml.FullLoader)
 
 		exitLoop = False
 
 		while exitLoop == False:
-			action = f.selPrompt(["Denylist", "Allowlist", "List Usage", "Conflict Handling", "Response Type", "Response Code"], ["❌", "✅", "⚖️", "⚖️", "📄", "#️"], "Settings\nUse [CTRL] + [C] to exit.")
+			action = f.selPrompt(["Denylist", "Allowlist", "List Usage", "Conflict Handling", "Response Type", "Response Code", "Quit"], ["❌", "✅", "⚖️", "⚖️", "📄", "#️⃣", "🚪"], "Settings")
+			if action == 6:
+				exitLoop = True
+			else:
+				if action == 0:
+					temp = host["denylist"]
+					length = len(temp) - 1
+					temp1 = []
+					for i, v in enumerate(temp):
+						if v == None:
+							temp.remove(None)
+						else:
+							temp1.append("❌")
+					temp.append("New")
+					temp1.append("➕")
+					temp.append("Back")
+					temp1.append("⬅️")
+					action1 = f.selPrompt(temp, temp1, "Settings / Allowlist")
+
+					if action1 <= length:
+						host["denylist"][action1] = None
