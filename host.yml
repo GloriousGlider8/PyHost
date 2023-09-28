@@ -1,0 +1,12 @@
+denylist:
+  - null
+allowlist:
+  - null
+use: all
+conflict:
+  allow:
+    - localhost
+  deny:
+    - null
+type: text/html
+code: 200

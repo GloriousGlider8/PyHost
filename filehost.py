@@ -1,6 +1,10 @@
-# Python 3 server example
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socket
+import yaml
+
+hostyml = open("host.yml")
+hostSettings = yaml.load(hostyml.read(), Loader=yaml.Loader)
+hostyml.close()
 
 hostName = "localhost"
 serverPort = int(input("Port: "))
@@ -16,22 +20,22 @@ IP = "http://" + s.getsockname()[0] + ":" + str(serverPort)
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
+        self.send_response(hostSettings.get("code"))
+        self.send_header("Content-type", hostSettings.get("type"))
         self.end_headers()
 
         with open(file, "r") as filep:
             self.wfile.write(bytes(filep.read(), "utf-8"))
-if __name__ == "__main__":        
-    webServer = HTTPServer((hostName, serverPort), MyServer)
-    print("Serving at port", serverPort)
-    print("Type this in your Browser", IP + ":" + str(serverPort))
-    print("If you are using this device, you can use http://localhost:", str(serverPort), sep="")
-    print("\nTo stop sharing the file, use [CTRL] & [C]\n")
 
-    try:
-        webServer.serve_forever()
-    except KeyboardInterrupt:
-        pass
+webServer = HTTPServer((hostName, serverPort), MyServer)
+print("Serving at port", serverPort)
+print("Type this in your Browser", IP + ":" + str(serverPort))
+print("If you are using this device, you can use http://localhost:", str(serverPort), sep="")
+print("\nTo stop sharing the file, use [CTRL] + [C]\n")
 
-    webServer.server_close()
+try:
+    webServer.serve_forever()
+except KeyboardInterrupt:
+    pass
+
+webServer.server_close()
