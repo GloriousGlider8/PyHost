@@ -5,8 +5,6 @@ from time import sleep as wait
 import runpy
 import yaml
 
-os.chdir("E:\\test\\sharing\\webTest-main")
-
 os.system("cls")
 print(c.Fore.RED + "Warning!\n" + c.Fore.YELLOW + "PyHost is not recommended for production.\nIt only runs basic security checks!\nFor more security, open a pull request on our GitHub with extra security." + c.Style.RESET_ALL)
 print(c.Fore.GREEN + "5")
@@ -104,5 +102,5 @@ if action != 3:
 						temp2 = action1 - length
 
 						if temp2 == 1:
-							newone = input("Block IP: ")
+							newone = f.stringSelect("Enter an IP to block.", "", False, False, False, False, False, -1, 1)
 							host["denylist"].append(newone)
