@@ -86,8 +86,8 @@ if action != 3:
 					temp1 = []
 					for i, v in enumerate(temp):
 						if v == None:
-							temp.remove(None)
-							host["denylist"].remove(None)
+							temp.pop(i)
+							host["denylist"].pop(i)
 						else:
 							temp1.append("❌")
 					temp.append("New")
