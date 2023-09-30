@@ -2,11 +2,6 @@ denylist:
   - null
 allowlist:
   - null
-use: all
-conflict:
-  allow:
-    - 127.0.0.1
-  deny:
-    - null
+use: deny
 type: text/html
 code: 200

@@ -27,12 +27,7 @@ denylist:
   - null
 allowlist:
   - null
-use: all
-conflict:
-  allow:
-    - localhost
-  deny:
-    - null
+use: denylist
 type: text/html
 code: 200
 ```
@@ -47,14 +42,7 @@ In JSON that is:
   "allowlist": [
     null
   ],
-  "use": "all"
-  "conflict": {
-    "allow": [
-      "localhost"
-    ],
-    "deny": [
-      null
-    ]
+  "use": "denylist"
   },
   "type": "text/html",
   "code": 200

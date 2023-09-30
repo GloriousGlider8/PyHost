@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socket
 import yaml
+import colorama as c
 
 hostyml = open("host.yml")
 hostSettings = yaml.load(hostyml.read(), Loader=yaml.Loader)
@@ -20,6 +21,15 @@ IP = "http://" + s.getsockname()[0] + ":" + str(serverPort)
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
+
+        if hostSettings["denylist"].find(str(self.client_address)) and hostSettings["use"] == "deny":
+            self.send_error(403, "Blocked IP", "Ask the host to unblock " + str(self.client_address) + " in their host.yml file or PyHost settings.")
+            print(c.Fore.YELLOW + "Blocked IP (" + str(self.client_address) + ") attempted to connect!" + c.Style.RESET_ALL)
+
+        if not hostSettings["allowlist"].find(str(self.client_address)) and hostSettings["use"] == "allow":
+            self.send_error(403, "Non-whitelisted IP", "Ask the host to allow " + str(self.client_address) + " in their host.yml file or PyHost settings.")
+            print(c.Fore.YELLOW + "Non-whitelisted (" + str(self.client_address) + ") attempted to connect!" + c.Style.RESET_ALL)
+
         self.send_response(hostSettings.get("code"))
         self.send_header("Content-type", hostSettings.get("type"))
         self.end_headers()
