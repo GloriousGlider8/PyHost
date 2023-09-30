@@ -10,14 +10,6 @@ If you notice a security flaw, **STOP RUNNING THE HOSTED CONTENT IMMEDIATELY usi
 
 Use **[CTRL] + [A]** when hosting to access the actions menu.
 
-### Actions
-
-| Action                     |  Versions  |                  Quick Keybind |
-| :------------------------- | :--------: | -----------------------------: |
-| Block IP                   | A-1.3.0 🔼 | **[CTRL] + [ALT] + [B]** |
-| Change Hosted Content Type | A-1.3.0 🔼 | **[CTRL] + [ALT] + [T]** |
-| Change Response Code       | A-1.3.0 🔼 | **[CTRL] + [ALT] + [C]** |
-
 ## host.yml
 
 `host.yml` is located in the main folder and deafults to:
@@ -52,4 +44,4 @@ In JSON that is:
 It contains security settings like who can view documents.
 You can edit it safely.
 
->**If you do not know YAML, the settings menu changes this safely.**
+> **If you do not know YAML, the settings menu changes this safely.**
