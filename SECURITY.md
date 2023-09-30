@@ -35,7 +35,6 @@ In JSON that is:
     null
   ],
   "use": "denylist"
-  },
   "type": "text/html",
   "code": 200
 }
