@@ -52,4 +52,4 @@ In JSON that is:
 It contains security settings like who can view documents.
 You can edit it safely.
 
-**If you do not know YAML, the settings menu changes this safely.**
+>**If you do not know YAML, the settings menu changes this safely.**
