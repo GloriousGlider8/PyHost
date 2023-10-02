@@ -34,7 +34,7 @@ In JSON that is:
   "allowlist": [
     null
   ],
-  "use": "denylist"
+  "use": "denylist",
   "type": "text/html",
   "code": 200
 }
