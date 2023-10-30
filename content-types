@@ -21,12 +21,12 @@ audio/x-ms-wma
 #Image
 image/gif
 image/tiff
-image/vnd.djvu
+image/vnd.djvu#VND Image
 image/jpeg
 image/svg+xml
 image/png
 image/x-icon
-image/vnd.microsoft.icon
+image/vnd.microsoft.icon#VND Image
 #Multiple Types
 multipart/mixed
 multipart/related
