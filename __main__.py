@@ -5,6 +5,17 @@ from time import sleep as wait
 import runpy
 import yaml
 
+if os.path.exists(os.path.join(os.getenv("APPDATA"), "PyHost", "PATH")):
+    homePathTxt = open(os.path.join(os.getenv("APPDATA"), "PyHost", "PATH"))
+    homePath = homePathTxt.read()
+    homePathTxt.close()
+    homePathTxt = None
+    if not os.path.exists(homePath):
+        raise OSError("PyHost HOME is not valid")
+else:
+    raise OSError("PyHost HOME is missing")
+
+
 os.system("cls")
 print(c.Fore.RED + "Warning!\n" + c.Fore.YELLOW + "PyHost is not recommended for production.\nIt only runs basic security checks!\nFor more security, open a pull request on our GitHub with extra security." + c.Style.RESET_ALL)
 print(c.Fore.GREEN + "5")
@@ -26,19 +37,6 @@ os.system("cls")
 print(c.Fore.YELLOW + "Heads Up!\n" + c.Style.RESET_ALL + "Without unrecommended actions, you can only host files and folders to users on your local network!")
 print(c.Fore.GREEN + "5")
 wait(1)
-f.upAndClear()
-print(c.Fore.GREEN + "4")
-wait(1)
-f.upAndClear()
-print(c.Fore.YELLOW + "3")
-wait(1)
-f.upAndClear()
-print(c.Fore.YELLOW + "2")
-wait(1)
-f.upAndClear()
-print(c.Fore.RED + "1" + c.Style.RESET_ALL)
-wait(1)
-f.upAndClear()
 os.system("cls")
 print(c.Fore.BLUE + "Notice\n" + c.Fore.CYAN + "PyHost and it's creators are not responsible for any damage caused by using this product.\nOpen issues on our GitHub" + c.Style.RESET_ALL)
 print(c.Fore.GREEN + "5")
@@ -65,11 +63,11 @@ if action != 3:
 	elif action == 1:
 		runpy.run_path("folderhost.py")
 	else:
-		temp = open("host.yml", "r")
+		temp = open(homePath + "\\host.yml", "r")
 		hostyml = temp.read()
 		temp.close()
 
-		hostfile = open("host.yml", "w")
+		hostfile = open(homePath + "\\host.yml", "w")
 
 		host = yaml.load(hostyml, Loader=yaml.FullLoader)
 
