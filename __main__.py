@@ -15,6 +15,7 @@ if os.path.exists(os.path.join(os.getenv("APPDATA"), "PyHost", "PATH")):
 else:
     raise OSError("PyHost HOME is missing")
 
+os.chdir(homePath)
 
 os.system("cls")
 print(c.Fore.RED + "Warning!\n" + c.Fore.YELLOW + "PyHost is not recommended for production.\nIt only runs basic security checks!\nFor more security, open a pull request on our GitHub with extra security." + c.Style.RESET_ALL)
