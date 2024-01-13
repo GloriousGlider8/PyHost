@@ -1,0 +1,11 @@
+{
+  "denylist": [
+    0
+  ],
+  "allowlist": [
+    0
+  ],
+  "use": "deny",
+  "type": "text/html",
+  "code": 200
+}

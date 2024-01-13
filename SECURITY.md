@@ -10,29 +10,17 @@ If you notice a security flaw, **STOP RUNNING THE HOSTED CONTENT IMMEDIATELY usi
 
 Use **[CTRL] + [A]** when hosting to access the actions menu.
 
-## host.yml
+## host.json
 
-`host.yml` is located in the main folder and deafults to:
-
-```yaml
-denylist:
-  - null
-allowlist:
-  - null
-use: denylist
-type: text/html
-code: 200
-```
-
-In JSON that is:
+`host.json` is located in the main folder and defaults to:
 
 ```json
 {
   "denylist": [
-    null
+    0
   ],
   "allowlist": [
-    null
+    0
   ],
   "use": "denylist",
   "type": "text/html",
@@ -43,4 +31,4 @@ In JSON that is:
 It contains security settings like who can view documents.
 You can edit it safely.
 
-> **If you do not know YAML, the settings menu changes this safely.**
+> **If you do not know how to write JSON, the settings menu changes this safely.**
