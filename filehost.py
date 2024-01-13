@@ -1,11 +1,11 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socket
-import yaml
+import json
 import colorama as c
 
-hostyml = open("host.yml")
-hostSettings = yaml.load(hostyml.read(), Loader=yaml.Loader)
-hostyml.close()
+hostjs = open("host.json")
+hostSettings = json.loads(hostjs.read())
+hostjs.close()
 
 hostName = "localhost"
 serverPort = int(input("Port: "))

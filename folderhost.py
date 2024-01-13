@@ -2,12 +2,12 @@ import http.server
 import socket
 import socketserver
 import os
-import yaml
+import json
 import colorama as c
 
-hostyml = open("host.yml")
-hostSettings = yaml.load(hostyml.read(), Loader=yaml.Loader)
-hostyml.close()
+hostjs = open("host.json")
+hostSettings = json.loads(hostjs.read())
+hostjs.close()
 
 PORT = int(input("Port number: "))
 os.environ['USERPROFILE']
