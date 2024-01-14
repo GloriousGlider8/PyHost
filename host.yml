@@ -1,7 +1,0 @@
-denylist:
-  - null
-allowlist:
-  - null
-use: deny
-type: text/html
-code: 200
