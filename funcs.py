@@ -3,6 +3,7 @@ import os
 import time
 import colorama as c
 import re
+import threading as t
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
@@ -209,14 +210,81 @@ def stringSelect(intro: str, default: str, numReq: bool, intReq: bool, fltReq: b
                 upAndClear()
 
 def fltList(listEdt: list, item: any) -> list:
-    res = list(filter((item).__ne__, listEdt)) 
+    res = list(filter((item).__ne__, listEdt))
     return res
 
 class progressBar:
-    def __init__(self, title: str, max: int):
+    def toggleDebug(self) -> None:
+        if self.debug:
+            self.debug = False
+        else:
+            self.debug = True
+
+        self.forceRender()
+    
+    def toggleForceUpdate(self) -> None:
+        if self.forceupd:
+            self.forceupd = False
+        else:
+            self.forceupd = True
+        
+        self.forceRender()
+    
+    def updThreadFunc(self) -> t.Thread:
+        while True:
+            if self.forceupd and self.is_alive:
+                self.forceRender()
+            elif not self.is_alive:
+                exit()
+            time.sleep(0.25)
+
+    def __init__(self, title: str, max: int, fad: str, ful: str, titclr: str) -> any:
+        self.forceupd = False
+        self.debug = False
         self.prg = 0
         self.title = title
         self.max = max
+        self.fad = fad
+        self.ful = ful
+        self.titclr = titclr
+        self.logmsg = []
+        self.is_alive = True
+
+        self.oldprg = 0
+        self.oldtitle = title
+        self.oldfad = fad
+        self.oldful = ful
+        self.oldtitclr = titclr
+        self.oldlogmsg = []
+
+        k.add_hotkey("f3", self.toggleDebug)
+        k.add_hotkey("f2", self.toggleForceUpdate)
+        k.add_hotkey("f1", self.forceRender)
+        k.add_hotkey("esc", self.kill)
+
+        self.updateThread = t.Thread(target=self.updThreadFunc)
+        self.updateThread.start()
+    
+    def kill(self) -> None:
+        self.forceupd = None
+        self.debug = None
+        self.prg = None
+        self.title = None
+        self.max = None
+        self.fad = None
+        self.ful = None
+        self.titclr = None
+        self.logmsg = None
+        self.is_alive = False
+
+        self.oldprg = None
+        self.oldtitle = None
+        self.oldfad = None
+        self.oldful = None
+        self.oldtitclr = None
+        self.oldlogmsg = None
+
+        os.system("cls")
 
     def increase(self, amount: int) -> None:
         self.prg += amount
@@ -227,25 +295,57 @@ class progressBar:
     def setTitle(self, title: str) -> None:
         self.title = title
     
-    def render(self) -> None:
-        os.system("cls")
-        print(self.title)
-        for _ in range(self.prg):
-            print("-", end="")
-        for _ in range(self.max - self.prg):
-            print(c.Fore.RED + "-", end=c.Style.RESET_ALL)
-        print()
-
-def selExplore(data: str):
-    temp = []
-    temp1 = []
-    with open(data, "r") as openD:
-        with openD.readlines() as rawdata:
-            for i, v in enumerate(rawdata):
-                if v.startswith("#"):
-                    temp.append(v.removeprefix("#"))
-                    temp1.append("__END__")
-                else:
-                    temp1.append(v)
+    def setColors(self, fad: str, ful: str, titclr: str) -> None:
+        self.fad = fad
+        self.ful = ful
+        self.titclr = titclr
     
-    temp2 = []
+    def log(self, msg: str):
+        self.logmsg.append(str(len(self.logmsg) + 1) + ": " + msg)
+        self.forceRender()
+    
+    def render(self) -> None:
+        if self.oldfad != self.fad or self.oldful != self.ful or self.oldprg != self.prg or self.oldtitclr != self.titclr or self.oldtitle != self.title or self.oldlogmsg != self.logmsg:
+            self.forceRender()
+
+    def forceRender(self) -> Warning:
+        if self.is_alive:
+            os.system("cls")
+            print(self.titclr + self.title + c.Style.RESET_ALL)
+
+            num = self.prg / (self.max / 10)
+            dec_num = num * 10
+            percent = round(dec_num, 2)
+
+            print(self.ful + str(percent) + "%" + c.Style.RESET_ALL + " | ", end="")
+            for _ in range(round(percent)):
+                print(self.ful + "█", end=c.Style.RESET_ALL)
+            for _ in range(100 - round(percent)):
+                print(self.fad + "█", end=c.Style.RESET_ALL)
+            print()
+            
+            if self.debug:
+                print(c.Fore.CYAN + "gg8lib - Progress Bar" + c.Style.RESET_ALL)
+                print(f"Progress: {str(self.prg)}/{str(self.max)}")
+                print(f"Percent Calc: num = {str(num)}, dec_num = {str(dec_num)}")
+                print(f"{str(percent)}%, ({str(round(percent))}/100)")
+
+                if self.forceupd:
+                    print(c.Fore.CYAN + "Force Updating, Press [F2] to turn off" + c.Style.RESET_ALL)
+                else:
+                    print(c.Fore.YELLOW + "Press [F2] to force update" + c.Style.RESET_ALL)
+                
+                for i in range(len(self.logmsg[-10:])):
+                    print(str(self.logmsg[-10:][i]))
+            else:
+                for i in range(len(self.logmsg[-15:])):
+                    print(str(self.logmsg[-15:][i]))
+
+            self.oldprg = self.prg
+            self.oldtitle = self.title
+            self.oldfad = self.fad
+            self.oldful = self.ful
+            self.oldtitclr = self.titclr
+            self.oldlogmsg = self.logmsg
+        else:
+            raise Exception("Progress bar has been killed!\n" + c.Fore.RED + "If the program is frozen, press [CTRL] + [C]" + c.Style.RESET_ALL)
